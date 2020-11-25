@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "548823993947",
+    "firebase_url": "https://navamin-add7a.firebaseio.com",
+    "project_id": "navamin-add7a",
+    "storage_bucket": "navamin-add7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548823993947:android:64754a8319d338669ab97e",
+        "android_client_info": {
+          "package_name": "com.example.navamin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548823993947-m4altmajt1duocuhhl4rn0p7v6ooqvj5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.navamin",
+            "certificate_hash": "bfc872605ff24221b1a3262cfe8323cbe5698ebe"
+          }
+        },
+        {
+          "client_id": "548823993947-141a6lq6iann9c7jibh717e9gdd21gc5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO0EomFyJoIVnay5AvVuJ7jZq-f1QRkWo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548823993947-141a6lq6iann9c7jibh717e9gdd21gc5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

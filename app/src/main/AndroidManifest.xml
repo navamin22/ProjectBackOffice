@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.navamin" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name=".Views.Activity.SellOut"
+            android:parentActivityName=".Views.Activity.SoldOut">
+        </activity>
+        <activity
+            android:name=".Views.Activity.SoldOut"
+            android:parentActivityName=".Views.Activity.MainActivity_Option" >
+        </activity>
+        <activity android:name=".Views.Activity.PeopleStockActivity" />
+        <activity
+            android:name=".Views.Activity.StockActivityTest"
+            android:parentActivityName=".Views.Activity.MainActivity_Option" />
+        <activity android:name=".Views.Activity.MainActivity_Submit" />
+        <activity android:name=".Views.Activity.MainActinity_Day" />
+        <activity
+            android:name=".Views.Activity.BorrowActivity"
+            android:parentActivityName=".Views.Activity.MainActivity3" />
+        <activity android:name=".Views.Activity.MainActivity5" />
+        <activity
+            android:name=".Views.Activity.Return"
+            android:parentActivityName=".Views.Activity.MainActivity_Option" />
+        <activity
+            android:name=".Views.Activity.MainActivity3"
+            android:parentActivityName=".Views.Activity.MainActivity_Option" />
+        <activity android:name=".Views.Activity.MainActivity_Option" />
+        <activity
+            android:name=".Views.Activity.LoginActivity"
+            android:theme="@style/LoginPage" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

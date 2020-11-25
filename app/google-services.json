@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "14893093226",
+    "firebase_url": "https://foodgarb-a2709.firebaseio.com",
+    "project_id": "foodgarb-a2709",
+    "storage_bucket": "foodgarb-a2709.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14893093226:android:384501ab3716ef4aecd513",
+        "android_client_info": {
+          "package_name": "com.example.navamin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14893093226-eqbpb8t68ka897j1qm07pngh1jnd278s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqElKuv5MwUdwQXZHjNbGyOymSprdcwlk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14893093226-eqbpb8t68ka897j1qm07pngh1jnd278s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

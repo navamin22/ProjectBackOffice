@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background55"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/brand_txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="30dp"
+            android:text="ชื่อยี่ห้อ :"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/brand1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:text="test"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/brand_txt1"
+            app:layout_constraintStart_toEndOf="@+id/brand_txt1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/model_txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="รุ่นเครื่อง :"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@+id/brand_txt1"
+            app:layout_constraintTop_toBottomOf="@+id/brand_txt1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/model1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="test"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/model_txt1"
+            app:layout_constraintStart_toEndOf="@+id/model_txt1"
+            app:layout_constraintTop_toTopOf="@+id/model_txt1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/quantity_txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="จำนวนทั้งหมด :"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@+id/model_txt1"
+            app:layout_constraintTop_toBottomOf="@+id/model_txt1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/quantity1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="N"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/quantity_txt1"
+            app:layout_constraintStart_toEndOf="@+id/quantity_txt1"
+            app:layout_constraintTop_toTopOf="@+id/quantity_txt1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/quantity_enable_txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="จำนวนที่ถูกใช้ไปแล้ว :"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="@+id/quantity_txt1"
+            app:layout_constraintTop_toBottomOf="@+id/quantity_txt1" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/quantity_enable1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="N"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/quantity_enable_txt1"
+            app:layout_constraintStart_toEndOf="@+id/quantity_enable_txt1"
+            app:layout_constraintTop_toTopOf="@+id/quantity_enable_txt1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
