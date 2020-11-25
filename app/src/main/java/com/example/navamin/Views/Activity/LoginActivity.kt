@@ -93,6 +93,8 @@ class LoginActivity : AppCompatActivity() {
 //            val modelBrand = ModelBrand (key.toString(),"EB-1500","-MMrvpO1CasKLZ-Tir1f")
 //            myRef5.child(key.toString()).setValue(modelBrand)
 
+
+//            what
 //            <<--ไว้เพิ่ม stock
 //            val key = myRef3.push().key
 //            val stock = Stock (key.toString(),"Counter Plus","TM-2000AM","-MMrw0X31KD0DmxE90Uk","3","3")
