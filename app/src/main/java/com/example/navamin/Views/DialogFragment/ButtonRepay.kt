@@ -70,6 +70,7 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
     fun checkItem(){
         val machineList = ArrayList<Machine>()
         val listname2 = ArrayList<Stock>()
+        println("stock $listname2")
         myRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
@@ -91,17 +92,17 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
                                         }
 
                                         for (k in listname2.indices){
-                                            if (stockId == machineList[k].stock_id){
+                                            if (stockId == listname2[k].id){
                                                 println("Yes")
 
 
                                                 val stock = Stock(
-                                                    listname2[i].id,
-                                                    listname2[i].brand,
-                                                    listname2[i].model,
-                                                    listname2[i].model_id,
-                                                    listname2[i].quantity,
-                                                    (listname2[i].quantity_enable.toInt() + 1).toString()
+                                                    listname2[k].id,
+                                                    listname2[k].brand,
+                                                    listname2[k].model,
+                                                    listname2[k].model_id,
+                                                    listname2[k].quantity,
+                                                    (listname2[k].quantity_enable.toInt() + 1).toString()
                                                 )
 
                                                 val borrow = Borrow(
@@ -121,6 +122,7 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
                                                 myRef2.child(stock.id).setValue(stock)
 
                                                 aRetun.queryData()
+                                                break
                                             }
                                         }
 
@@ -179,6 +181,7 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
             println("checkid is $id")
             println("checkmachine is $machine_id")
             println("checkserialnumber is $serialnumber")
+            println("checkbrand is $brand")
             println("checkstatus is $status")
         }
 

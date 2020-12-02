@@ -11,13 +11,13 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background55"
+            android:background="@drawable/back256"
             tools:context=".Views.Activity.MainActivity_Option">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/linearLayoutCompat"
                 android:layout_width="match_parent"
-                android:layout_height="610dp"
+                android:layout_height="700dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

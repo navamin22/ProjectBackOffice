@@ -3,10 +3,7 @@ package com.example.navamin.Views.Activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.min.DialogFragment.DialogStock
@@ -74,7 +71,7 @@ class StockActivityTest : AppCompatActivity() {
                 if (list.contains(query)) {
                     adapter.filter.filter(query)
                 } else {
-                    Toast.makeText(this@StockActivityTest, "No Match found", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@StockActivityTest, "Item not found", Toast.LENGTH_LONG).show()
                 }
                 return false
             }

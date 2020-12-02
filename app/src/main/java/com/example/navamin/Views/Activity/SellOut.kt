@@ -195,7 +195,10 @@ class SellOut : AppCompatActivity() {
         val dayreturn = binding.appCompatTextView7.text.toString().trim()
         val reason = binding.reason.text.toString().trim()
         val machineList = ArrayList<Machine>()
-        val stockList = ArrayList<Stock>()
+
+
+        machineList.clear()
+
         myRef3.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
@@ -211,33 +214,25 @@ class SellOut : AppCompatActivity() {
                             boolean = true
 
                             val stockId = machineList[i].stock_id
-                            myRef2.addListenerForSingleValueEvent(object : ValueEventListener {
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    if (snapshot.exists()){
-                                        for (postSnapshot in snapshot.children) {
-                                            val stock: Stock? = postSnapshot.getValue(Stock::class.java)
-                                            stockList.add(stock!!)
-                                        }
 
-                                        for (k in stockList.indices){
-                                            if (stockId == machineList[k].stock_id) {
+                                        for (k in listname2.indices){
+                                            if (stockId == listname2[k].id) {
                                                 println("Yes")
+
+
                                                 boolean = true
 
                                                 val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialnumber3,day1,dayreturn,reason,machineList[i].id,"SellOut")
 
 
-//                                                val spinnerId = binding.spinner1.selectedItemId.toInt()
-//                                                listname2[binding.spinner1.selectedItemId.toInt()].quantity_enable.toInt() - 1
-
 
                                                 val stock = Stock(
-                                                    listname2[i].id,
-                                                    listname2[i].brand,
-                                                    listname2[i].model,
-                                                    listname2[i].model_id,
-                                                    listname2[i].quantity,
-                                                    (listname2[i].quantity_enable.toInt() - 1).toString()
+                                                    listname2[k].id,
+                                                    listname2[k].brand,
+                                                    listname2[k].model,
+                                                    listname2[k].model_id,
+                                                    listname2[k].quantity,
+                                                    (listname2[k].quantity_enable.toInt() - 1).toString()
                                                 )
 
                                                 myRef.child(key.toString()).setValue(borrow)
@@ -255,13 +250,6 @@ class SellOut : AppCompatActivity() {
                                                 boolean = false
                                             }
                                         }
-                                    }
-                                }
-
-                                override fun onCancelled(error: DatabaseError) {
-                                    TODO("Not yet implemented")
-                                }
-                            })
 
 
                             break

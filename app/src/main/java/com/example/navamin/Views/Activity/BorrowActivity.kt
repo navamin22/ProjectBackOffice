@@ -49,8 +49,6 @@ class BorrowActivity : AppCompatActivity() {
     private var listmachine = ArrayList<Machine>()
     private val nameList = ArrayList<Borrow>()
 
-
-
     val database = FirebaseDatabase.getInstance()
     val myRef = database.getReference("Borrow")
     val myRef2 = database.getReference("Stock")
@@ -69,14 +67,6 @@ class BorrowActivity : AppCompatActivity() {
         supportActionBar!!.title = "Modern POS"
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         initInstance()
-
-//            val number = Name ("1548","rov")
-//            myRef.push().setValue(number)
-//            myRef.child("name").setValue(number)
-//            myRef.child("name2").setValue(number)
-//            myRef.child("name3").setValue(number)
-//            myRef.child("name4").setValue(number)
-
 
     }
 
@@ -120,6 +110,7 @@ class BorrowActivity : AppCompatActivity() {
                     if (listname3[p2].brand_id == listname4[k].brand_id) {
 
                         spinnerlist2.add(listname4[k].name_model)
+
                     }
                 }
 
@@ -128,8 +119,20 @@ class BorrowActivity : AppCompatActivity() {
                     spinnerlist2
                 )
 
+
                  binding.spinner1.adapter = arrAdapter
 
+//                binding.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                        println("model choose = ${binding.spinner1.getItemAtPosition(p2)}")
+//                        println("model position choose = $p2")
+//
+//                    }
+//
+//                    override fun onNothingSelected(p0: AdapterView<*>?) {
+//                        TODO("Not yet implemented")
+//                    }
+//                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -253,7 +256,7 @@ class BorrowActivity : AppCompatActivity() {
         binding.Submit.setOnClickListener {
 //            submit()
             checkSerialNum()
-
+//            checksubmit()
         }
 
         binding.day.setOnClickListener {
@@ -316,15 +319,24 @@ class BorrowActivity : AppCompatActivity() {
     fun checkSerialNum(){
         val serialNum = binding.serialnumber3.text.toString()
         val key = myRef.push().key
-        val spinner1 = spinner1.selectedItem.toString()
         val spinnerBrand = spinner_brand.selectedItem.toString()
+        val spinner1 = spinner1.selectedItem.toString()
         val spinner = spinner.selectedItem.toString()
-        val serialnumber3 = binding.serialnumber3.text.toString().trim()
         val day1 = binding.day1.text.toString().trim()
         val dayreturn = binding.appCompatTextView7.text.toString().trim()
         val reason = binding.reason.text.toString().trim()
         val machineList = ArrayList<Machine>()
-        val stockList = ArrayList<Stock>()
+
+        println("brand is $spinnerBrand")
+        println("model is $spinner1")
+        println("name is $spinner")
+        println("serialnum is $serialNum")
+        println("day is $day1")
+        println("dayreturn is $dayreturn")
+        println("reason is $reason")
+
+
+        machineList.clear()
         myRef3.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
@@ -337,60 +349,96 @@ class BorrowActivity : AppCompatActivity() {
                     for (i in machineList.indices){
                         if (serialNum == machineList[i].serialnumber) {
                             println("Yes")
+                            println("SerialNum $serialNum == SerialNum ${machineList[i].serialnumber}")
                             boolean = true
 
                             val stockId = machineList[i].stock_id
-                            myRef2.addListenerForSingleValueEvent(object : ValueEventListener{
-                                override fun onDataChange(snapshot: DataSnapshot) {
-                                    if (snapshot.exists()){
-                                        for (postSnapshot in snapshot.children) {
-                                            val stock: Stock? = postSnapshot.getValue(Stock::class.java)
-                                            stockList.add(stock!!)
-                                        }
+                            println("StockId is $stockId")
 
-                                        for (k in stockList.indices){
-                                            if (stockId == machineList[k].stock_id) {
-                                                println("Yes")
-                                                boolean = true
+                            for (k in listname2.indices){
+                                if (stockId == listname2[k].id) {
+                                    println("Yes")
 
-                                                val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialnumber3,day1,dayreturn,reason,machineList[i].id,"Borrowed")
+                                    boolean = true
 
+                                    val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialNum,day1,dayreturn,reason,machineList[i].id,"Borrowed")
 
-//                                                val spinnerId = binding.spinner1.selectedItemId.toInt()
-//                                                listname2[binding.spinner1.selectedItemId.toInt()].quantity_enable.toInt() - 1
+                                    val stock = Stock(
+                                        listname2[k].id,
+                                        listname2[k].brand,
+                                        listname2[k].model,
+                                        listname2[k].model_id,
+                                        listname2[k].quantity,
+                                        (listname2[k].quantity_enable.toInt() - 1).toString()
+                                    )
 
+                                    myRef.child(key.toString()).setValue(borrow)
+                                    myRef2.child(stock.id).setValue(stock)
 
-                                                val stock = Stock(
-                                                    listname2[i].id,
-                                                    listname2[i].brand,
-                                                    listname2[i].model,
-                                                    listname2[i].model_id,
-                                                    listname2[i].quantity,
-                                                    (listname2[i].quantity_enable.toInt() - 1).toString()
-                                                )
+                                    val intent = Intent(this@BorrowActivity, MainActivity3::class.java)
+                                    startActivity(intent)
 
-                                                myRef.child(key.toString()).setValue(borrow)
-                                                myRef2.child(stock.id).setValue(stock)
+                                    //myRef.child(key.toString()).setValue(borrow)
+                                    //Calculate Stock
 
-                                                val intent = Intent(this@BorrowActivity, MainActivity3::class.java)
-                                                startActivity(intent)
-
-                                                //myRef.child(key.toString()).setValue(borrow)
-                                                //Calculate Stock
-
-                                                break
-                                            }else{
-                                                println("No")
-                                                boolean = false
-                                            }
-                                        }
-                                    }
+                                    break
+                                }else{
+                                    println("No")
+                                    boolean = false
                                 }
+                            }
 
-                                override fun onCancelled(error: DatabaseError) {
-                                    TODO("Not yet implemented")
-                                }
-                            })
+//                            myRef2.addListenerForSingleValueEvent(object : ValueEventListener{
+//                                override fun onDataChange(snapshot: DataSnapshot) {
+//                                    if (snapshot.exists()){
+//                                        for (postSnapshot in snapshot.children) {
+//                                            val stock: Stock? = postSnapshot.getValue(Stock::class.java)
+//                                            stockList.add(stock!!)
+//                                        }
+//
+//                                        for (k in stockList.indices){
+//                                            if (stockId == machineList[k].stock_id) {
+//                                                println("Yes")
+//
+//                                                boolean = true
+//
+//                                                val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialNum,day1,dayreturn,reason,machineList[i].id,"Borrowed")
+//
+////                                                val spinnerId = binding.spinner1.selectedItemId.toInt()
+////                                                listname2[binding.spinner1.selectedItemId.toInt()].quantity_enable.toInt() - 1
+//
+//
+//                                                val stock = Stock(
+//                                                    listname2[k].id,
+//                                                    listname2[k].brand,
+//                                                    listname2[k].model,
+//                                                    listname2[k].model_id,
+//                                                    listname2[k].quantity,
+//                                                    (listname2[k].quantity_enable.toInt() - 1).toString()
+//                                                )
+//
+//                                                myRef.child(key.toString()).setValue(borrow)
+//                                                myRef2.child(stock.id).setValue(stock)
+//
+//                                                val intent = Intent(this@BorrowActivity, MainActivity3::class.java)
+//                                                startActivity(intent)
+//
+//                                                //myRef.child(key.toString()).setValue(borrow)
+//                                                //Calculate Stock
+//
+//                                                break
+//                                            }else{
+//                                                println("No")
+//                                                boolean = false
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//
+//                                override fun onCancelled(error: DatabaseError) {
+//                                    TODO("Not yet implemented")
+//                                }
+//                            })
 
 
                             break
@@ -416,35 +464,6 @@ class BorrowActivity : AppCompatActivity() {
         })
     }
 
-    fun submit(){
-        val key = myRef.push().key
-        val serialnumber3 = binding.serialnumber3.text.toString().trim()
-        val spinner1 = spinner1.selectedItem.toString()
-        val spinner = spinner.selectedItem.toString()
-        val day1 = binding.day1.text.toString().trim()
-        val dayreturn = binding.appCompatTextView7.text.toString().trim()
-        val reason = binding.reason.text.toString().trim()
-        val borrow = Borrow(key.toString(), spinner1, spinner, serialnumber3, day1, dayreturn, reason)
-
-        val spinnerId = binding.spinner1.selectedItemId.toInt()
-        listname2[binding.spinner1.selectedItemId.toInt()].quantity_enable.toInt() - 1
-//            ไว้เพิ่ม-ลด ข้อมูลใน Firebas
-//            listname2[0].quantity_enable.toInt() - 1
-//            myRef.child(borrow.id).setValue(borrow)
-
-        val stock = Stock(
-            listname2[spinnerId].id,
-            listname2[spinnerId].brand,
-            listname2[spinnerId].model,
-            listname2[spinnerId].quantity,
-            (listname2[spinnerId].quantity_enable.toInt() - 1).toString()
-        )
-        myRef.push().setValue(borrow)
-        myRef2.child(stock.id).setValue(stock)
-
-        val intent = Intent(this, MainActivity3::class.java)
-        startActivity(intent)
-    }
 
 }
 

@@ -45,6 +45,12 @@ class LoginActivity : AppCompatActivity() {
     fun onClickCheck(){
         binding.login.setOnClickListener{
             checkUser()
+
+
+//            val intent = Intent(this@LoginActivity, MainActivity_Option::class.java)
+//            startActivity(intent)
+
+
 //                intent ส่งค่าไปอีก activity
 //            var str1 = binding.user.text.toString()
 //            var str2 = binding.pw.text.toString()
@@ -85,23 +91,23 @@ class LoginActivity : AppCompatActivity() {
 //
 //            <<ไว้เพิ่ม brand
 //            val key = myRef4.push().key
-//            val brand = Brand (key.toString(),"Telpo5")
+//            val brand = Brand (key.toString(),"HESS")
 //            myRef4.child(key.toString()).setValue(brand)
 //
 //            <<ไว้เพิ่ม modelbrand
 //            val key = myRef5.push().key
-//            val modelBrand = ModelBrand (key.toString(),"EB-1500","-MMrvpO1CasKLZ-Tir1f")
+//            val modelBrand = ModelBrand (key.toString(),"EB-20+","-MMTkN_YkTSAQRgFEFZJ")
 //            myRef5.child(key.toString()).setValue(modelBrand)
 
 //            <<--ไว้เพิ่ม stock
 //            val key = myRef3.push().key
-//            val stock = Stock (key.toString(),"Counter Plus","TM-2000AM","-MMrw0X31KD0DmxE90Uk","3","3")
+//            val stock = Stock (key.toString(),"HESS","COIN 302","-MNMDFdt0h6P3RmiAm3q","1","1")
 //            myRef3.child(key.toString()).setValue(stock)
 
 
 //            <<--ไว้เพิ่ม machine
 //            val key = myRef2.push().key
-//            val machine = Machine (key.toString(),"Telpo5","TM5000","TU151","Borrowed","-MMrwEUJ2z9PHuGpdeVr")
+//            val machine = Machine (key.toString(),"HESS","COIN-302","25237","Borrowed","-MNRH1OJvaug9ObiKb07")
 //            myRef2.child(key.toString()).setValue(machine)
 
 

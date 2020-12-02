@@ -20,6 +20,7 @@ class IconDialogRepay(private val items: ArrayList<Borrow>, private val aReturn:
     private var langList = ArrayList<Borrow>()
     private var id: String? = null
     private var machine_id: String? = null
+    private var brand: String? = null
     private var model: String? = null
     private var serialnumber: String? = null
     private var borrowName: String? = null
@@ -49,6 +50,7 @@ class IconDialogRepay(private val items: ArrayList<Borrow>, private val aReturn:
             val bundle = Bundle()
             bundle.putString("id",id.toString())
             bundle.putString("machine_id",machine_id.toString())
+            bundle.putString("brand",brand.toString())
             bundle.putString("model",model.toString())
             bundle.putString("serialnumber",serialnumber.toString())
             bundle.putString("borrowName",borrowName.toString())
@@ -67,6 +69,7 @@ class IconDialogRepay(private val items: ArrayList<Borrow>, private val aReturn:
         arguments?.takeIf {
             it.containsKey("id")
             it.containsKey("machine_id")
+            it.containsKey("brand")
             it.containsKey("model")
             it.containsKey("serialnumber")
             it.containsKey("borrowName")
@@ -77,6 +80,7 @@ class IconDialogRepay(private val items: ArrayList<Borrow>, private val aReturn:
         }?.apply {
             id = getString("id")
             machine_id = getString("machine_id")
+            brand = getString("brand")
             model = getString("model")
             serialnumber = getString("serialnumber")
             borrowName = getString("borrowName")

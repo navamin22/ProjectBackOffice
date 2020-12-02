@@ -46,11 +46,13 @@ class Return : AppCompatActivity() {
                         val borrow: Borrow? = postSnapshot.getValue(Borrow::class.java)
                         if (borrow?.status == "Borrowed"){
                             nameList.add(borrow!!)
+
+                            println("show is $nameList")
+
                         }
                     }
 
 //                    println("borrow is $nameList")
-
                     val adapters = RepayAdapters(this@Return,nameList,this@Return)
                     binding.recyclerFood.let {
                         it.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL,false)
