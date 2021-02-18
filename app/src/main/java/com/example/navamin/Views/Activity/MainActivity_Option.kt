@@ -40,26 +40,66 @@ class MainActivity_Option : AppCompatActivity() {
 //        binding.button.text = intent.getStringExtra("username")
 //        binding.button2.text = intent.getStringExtra("password")
 
-        getStockItem()
+//        getStockItem()
         onClickActivate()
     }
 
     fun onClickActivate(){
         binding.button.setOnClickListener{
-            getBrandItem()
-            //getModelItem()
+            if (!Control.clicked) {
+                Control.clicked = true
+                getBrandItem()
+            }
         }
+
         binding.button3.setOnClickListener{
-            button3()
+            if (!Control.clicked) {
+                Control.clicked = true
+                button3()
 //                    <<--เพิ่มข้อมูลใน Firebase
 //            val key = myRef.push().key
 //            val stock = Stock (key.toString(),"Telpo","TPS 516","8","8")
 //            myRef.child(key.toString()).setValue(stock)
+            }
         }
+
         binding.soldout.setOnClickListener{
-            getSoldout()
+            if (!Control.clicked) {
+                Control.clicked = true
+                getSoldout()
+            }
         }
+
+        binding.button2.setOnClickListener {
+            if (!Control.clicked) {
+                Control.clicked = true
+                getStockItem()
+            }
+        }
+
     }
+
+    override fun onStart() {
+        super.onStart()
+        println("yes")
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("yes")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("yes")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Control.clicked = false
+    }
+
 
     fun getBrandItem(){
         brandList.clear()
@@ -89,6 +129,7 @@ class MainActivity_Option : AppCompatActivity() {
                                 intent.putExtra("test2", Control.listname2)
                                 intent.putExtra("test3", Control.listname3)
                                 startActivity(intent)
+                                Control.clicked = false
 
                             }
                             //println("model is $modelList")
@@ -120,17 +161,18 @@ class MainActivity_Option : AppCompatActivity() {
                         stockList.add(stock!!)
                         Control.listname.add(stock!!)
                     }
-                    binding.button2.setOnClickListener{
+
                         val intent = Intent(this@MainActivity_Option, Return::class.java)
                         intent.putExtra("test",Control.listname)
                         startActivity(intent)
-                    }
+//                        Control.clicked = false
+
                     println("stock is $stockList")
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Control.clicked = false
             }
         })
 
@@ -190,6 +232,7 @@ class MainActivity_Option : AppCompatActivity() {
                                 intent.putExtra("test2", Control.listname2)
                                 intent.putExtra("test3", Control.listname3)
                                 startActivity(intent)
+                                Control.clicked = false
 
                             }
                             //println("model is $modelList")

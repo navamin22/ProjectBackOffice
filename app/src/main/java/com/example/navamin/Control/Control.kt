@@ -11,5 +11,8 @@ class Control {
         var listname2 = ArrayList<Brand>()
         var listname3 = ArrayList<ModelBrand>()
 
+
+        var clicked: Boolean = false
+
     }
 }

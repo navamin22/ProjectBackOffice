@@ -70,7 +70,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="20dp"
-        android:text="ชื่อคนยืม"
+        android:text="ชื่อผู้ยืม"
         android:textColor="@color/black"
         android:textSize="25dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,12 +102,12 @@
         app:layout_constraintStart_toStartOf="@+id/appCompatTextView2"
         app:layout_constraintTop_toBottomOf="@+id/appCompatTextView2" />
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/serialnumber3"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:background="@drawable/edittext"
+        android:background="@drawable/back_edittext_borrow"
         android:hint="กรุณากรอกข้อมูล"
         android:padding="10dp"
         android:textColorHint="@color/black"
@@ -115,7 +115,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appCompatTextView9">
 
-    </androidx.appcompat.widget.AppCompatEditText>
+    </com.google.android.material.textfield.TextInputEditText>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/appCompatTextView3"
@@ -188,12 +188,12 @@
 
     </androidx.appcompat.widget.AppCompatTextView>
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/reason"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:background="@drawable/edittext"
+        android:background="@drawable/back_edittext_borrow"
         android:hint="กรุณากรอกข้อมูล"
         android:padding="10dp"
         android:textColorHint="@color/black"
@@ -201,7 +201,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/appCompatTextView5">
 
-    </androidx.appcompat.widget.AppCompatEditText>
+    </com.google.android.material.textfield.TextInputEditText>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/day"

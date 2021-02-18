@@ -47,9 +47,33 @@ class SoldOut : AppCompatActivity() {
         queryDta()
 
         binding.sold.setOnClickListener {
-            getStockItem()
+            if (!Control.clicked) {
+                Control.clicked = true
+                getStockItem()
+            }
         }
 
+        Control.clicked = false
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("on resume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("on pause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Control.clicked = false
     }
 
     fun getStockItem(){

@@ -11,14 +11,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.example.navamin.Control.Control
 import com.example.navamin.Model.*
 import com.example.navamin.R
 import com.example.navamin.databinding.ActivitySellOutBinding
 import com.example.navamin.snackbar
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main_activity6__borrow.*
 import kotlinx.android.synthetic.main.dialog_day.view.*
 import java.text.SimpleDateFormat
@@ -32,7 +30,6 @@ class SellOut : AppCompatActivity() {
     private lateinit var arrAdapter: ArrayAdapter<String>
     private lateinit var arrAdapter2: ArrayAdapter<String>
     private lateinit var arrAdapter3: ArrayAdapter<String>
-    private lateinit var arrAdapter4: ArrayAdapter<String>
     private lateinit var calendarList: List<Calendar>
     private val spinnerlist = ArrayList<String>()
     private val spinnerlist2 = ArrayList<String>()
@@ -126,7 +123,11 @@ class SellOut : AppCompatActivity() {
 
     fun onClickCheck(){
         binding.Submit.setOnClickListener {
-            checkSerialNum()
+            if (!Control.clicked) {
+                Control.clicked = true
+                checkSerialNum()
+            }
+
         }
         binding.day.setOnClickListener {
             val dialogDate = LayoutInflater.from(this).inflate(R.layout.dialog_day, null)
@@ -196,10 +197,11 @@ class SellOut : AppCompatActivity() {
         val reason = binding.reason.text.toString().trim()
         val machineList = ArrayList<Machine>()
 
-
         machineList.clear()
 
-        myRef3.addListenerForSingleValueEvent(object : ValueEventListener {
+        val query: Query = myRef3.orderByChild("model").equalTo(spinner1)
+
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     for (postSnapshot in snapshot.children) {
@@ -207,64 +209,101 @@ class SellOut : AppCompatActivity() {
                         machineList.add(machine!!)
                     }
 
+                    println("machine $machineList")
+
+                    println("sizamachine ${machineList.size}")
+
                     var boolean = false
                     for (i in machineList.indices){
                         if (serialNum == machineList[i].serialnumber) {
                             println("Yes")
                             boolean = true
 
+
                             val stockId = machineList[i].stock_id
 
-                                        for (k in listname2.indices){
-                                            if (stockId == listname2[k].id) {
-                                                println("Yes")
+                            val machine = Machine(machineList[i].id,spinnerBrand,spinner1,serialNum,"SellOut",stockId)
+
+                            if (machineList[i].status == "Borrow") {
+                                Toast.makeText(this@SellOut,"เสร็จสิ้น",Toast.LENGTH_SHORT).show()
+                                myRef3.child(machineList[i].id).setValue(machine)
+                                for (k in listname2.indices){
+                                    if (stockId == listname2[k].id) {
+                                        println("Yes")
+
+                                        boolean = true
+
+                                        val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialNum,day1,dayreturn,reason,machineList[i].id,"SellOut")
 
 
-                                                boolean = true
+                                        val stock = Stock(
+                                            listname2[k].id,
+                                            listname2[k].brand,
+                                            listname2[k].model,
+                                            listname2[k].model_id,
+                                            listname2[k].quantity,
+                                            (listname2[k].quantity_enable.toInt() - 1).toString()
+                                        )
 
-                                                val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialnumber3,day1,dayreturn,reason,machineList[i].id,"SellOut")
-
-
-
-                                                val stock = Stock(
-                                                    listname2[k].id,
-                                                    listname2[k].brand,
-                                                    listname2[k].model,
-                                                    listname2[k].model_id,
-                                                    listname2[k].quantity,
-                                                    (listname2[k].quantity_enable.toInt() - 1).toString()
-                                                )
-
-                                                myRef.child(key.toString()).setValue(borrow)
-                                                myRef2.child(stock.id).setValue(stock)
-
-                                                val intent = Intent(this@SellOut, SoldOut::class.java)
-                                                startActivity(intent)
-
-                                                //myRef.child(key.toString()).setValue(borrow)
-                                                //Calculate Stock
-
-                                                break
-                                            }else{
-                                                println("No")
-                                                boolean = false
-                                            }
-                                        }
+//                                    for (l in machineList.indices){
+//                                        if (machineList[l].serialnumber == serialNum) {
+//                                            val machine = Machine (
+//                                                machineList[l].id,spinnerBrand,spinner1,serialNum,"Borrowed",stockId
+//                                            )
+//
+//                                            if (machineList[l].status == "Borrow"){
+//                                                Toast.makeText(this@BorrowActivity,"ใช้ได้",Toast.LENGTH_SHORT).show()
+//                                                myRef3.child(machineList[l].id).setValue(machine)
+//
+//                                                break
+//                                            } else if (machineList[l].status != "Borrowed") {
+//                                                Toast.makeText(this@BorrowActivity,"ใช้ไปแล้ว",Toast.LENGTH_SHORT).show()
+//                                            }
+//
+//                                        }
+//                                    }
 
 
-                            break
+
+
+                                        myRef.child(key.toString()).setValue(borrow)
+                                        myRef2.child(stock.id).setValue(stock)
+
+                                        val intent = Intent(this@SellOut, SoldOut::class.java)
+                                        startActivity(intent)
+//                                        Control.clicked = false
+
+
+                                        //myRef.child(key.toString()).setValue(borrow)
+                                        //Calculate Stock
+
+                                        break
+                                    }else{
+                                        println("No")
+                                        boolean = false
+                                    }
+                                }
+
+
+                                break
+                            } else if (machineList[i].status == "SellOut") {
+                                Toast.makeText(this@SellOut,"ขายไปแล้ว",Toast.LENGTH_SHORT).show()
+                            }
+
+
                         } else{
-                            //Toast.makeText(this@BorrowActivity,"No",Toast.LENGTH_SHORT).show()
+                            Control.clicked = false
+//                            Toast.makeText(this@SellOut,"กรอกข้อมูลผิด",Toast.LENGTH_SHORT).show()
                             println("No")
                             boolean = false
                         }
                     }
 
-                    if (boolean){
-                        Toast.makeText(this@SellOut,"เสร็จสิ้น", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this@SellOut,"กรอกข้อมูลไม่ถูกต้อง", Toast.LENGTH_SHORT).show()
-                    }
+//                    if (boolean){
+//                        Toast.makeText(this@SellOut,"เสร็จสิ้น", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(this@SellOut,"กรอกข้อมูลไม่ถูกต้อง", Toast.LENGTH_SHORT).show()
+//                    }
 
                 }
             }

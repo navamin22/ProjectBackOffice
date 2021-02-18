@@ -7,13 +7,11 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.example.navamin.Control.Control
 import com.example.navamin.Model.*
 import com.example.navamin.R
 import com.example.navamin.databinding.ActivityLoginBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,7 +21,7 @@ class LoginActivity : AppCompatActivity() {
     //var x : String? = null
 
     val database = FirebaseDatabase.getInstance()
-    val myRef = database.getReference("User")
+    val userRef = database.getReference("User")
     val myRef2 = database.getReference("Machine")
     val myRef3 = database.getReference("Stock")
     val myRef4 = database.getReference("Brand")
@@ -44,7 +42,18 @@ class LoginActivity : AppCompatActivity() {
 
     fun onClickCheck(){
         binding.login.setOnClickListener{
-            checkUser()
+            if (!Control.clicked) { //ไว้กันกดซ้ำของปุ่ม
+                Control.clicked = true
+                checkUser()
+//                firebasetest()
+//                val intent = Intent(this,MainActivity_Option::class.java)
+//                startActivity(intent)
+//                finish()
+//                Control.clicked = false
+
+            }
+
+        }
 
 
 //            val intent = Intent(this@LoginActivity, MainActivity_Option::class.java)
@@ -96,18 +105,18 @@ class LoginActivity : AppCompatActivity() {
 //
 //            <<ไว้เพิ่ม modelbrand
 //            val key = myRef5.push().key
-//            val modelBrand = ModelBrand (key.toString(),"EB-20+","-MMTkN_YkTSAQRgFEFZJ")
+//            val modelBrand = ModelBrand (key.toString(),"TM-08","-MMTk8JszC_Zh-7sTJYz")
 //            myRef5.child(key.toString()).setValue(modelBrand)
 
 //            <<--ไว้เพิ่ม stock
 //            val key = myRef3.push().key
-//            val stock = Stock (key.toString(),"HESS","COIN 302","-MNMDFdt0h6P3RmiAm3q","1","1")
+//            val stock = Stock (key.toString(),"Counter Plus","TM-08","-MOdJDi8Vjf2DRhFDl-A","17","17")
 //            myRef3.child(key.toString()).setValue(stock)
 
 
 //            <<--ไว้เพิ่ม machine
 //            val key = myRef2.push().key
-//            val machine = Machine (key.toString(),"HESS","COIN-302","25237","Borrowed","-MNRH1OJvaug9ObiKb07")
+//            val machine = Machine (key.toString(),"Counter Plus","TM-08","2014091308348","Borrow","-MP276fVEwNpdDgGszb_")
 //            myRef2.child(key.toString()).setValue(machine)
 
 
@@ -122,7 +131,7 @@ class LoginActivity : AppCompatActivity() {
 //            myRef.child("Id4").setValue(user)
 //            val intent = Intent(this,MainActivity2::class.java)
 //            startActivity(intent)
-        }
+
 
 
 //        btn2_register = findViewById(R.id.login)
@@ -139,7 +148,7 @@ class LoginActivity : AppCompatActivity() {
         val username = binding.user.text.toString()
         val password = binding.pw.text.toString()
         val userList = ArrayList<User>()
-        myRef.addListenerForSingleValueEvent(object : ValueEventListener{
+        userRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     for (postSnapshot in snapshot.children){
@@ -153,14 +162,17 @@ class LoginActivity : AppCompatActivity() {
                             println("Yes")
                             boolean = true
 
-                            if (userList[i].status == "Admin"){
+                            if (userList[i].status == "Admin") {
                                 val intent = Intent(this@LoginActivity, MainActivity_Option::class.java)
                                 startActivity(intent)
+//                                Control.clicked = false
+                                finish()  //คำสั่งไว้ทำลายหน้านี้ทิ้ง
                             } else { //ถ้าไม่เป็น admin จะทำอันนี้
                                 val intent = Intent(this@LoginActivity, PeopleStockActivity::class.java)
                                 startActivity(intent)
+//                                Control.clicked = false
+                                finish() //คำสั่งไว้ทำลายหน้านี้ทิ้ง
                             }
-
 
                             break
                         }else{
@@ -174,6 +186,31 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         Toast.makeText(this@LoginActivity,"กรอกข้อมูลไม่ถูกต้อง",Toast.LENGTH_SHORT).show()
                     }
+
+                }
+                Control.clicked = false
+//                finish()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Control.clicked = false
+            }
+        })
+    }
+
+    fun firebasetest(){
+        val query: Query = myRef2.orderByChild("model").equalTo("EB-300UV")
+        val machineList2 = ArrayList<Machine>()
+        query.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    for (postSnapshot in snapshot.children) {
+                        val machine: Machine? = postSnapshot.getValue(Machine::class.java)
+                        machineList2.add(machine!!)
+                    }
+                    println("machine $machineList2")
+
+                    println("sizaMachine ${machineList2.size}")
                 }
             }
 
@@ -183,6 +220,15 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    override fun onStop() {
+        super.onStop()
+//        Control.clicked = false
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Control.clicked = false
+    }
 
     }
 

@@ -8,11 +8,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/blackgro"
+        android:background="@drawable/t1"
         tools:context=".Views.Activity.LoginActivity">
 
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -28,54 +28,45 @@
 
             </androidx.appcompat.widget.AppCompatImageView>
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="MODERN POS Co., Ltd."
-                android:textColor="#000000"
-                android:textSize="20dp">
+                android:textColor="@color/grat3"
+                android:textSize="24dp"
+                android:textStyle="bold">
 
-            </androidx.appcompat.widget.AppCompatTextView>
+            </com.google.android.material.textview.MaterialTextView>
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/login_id_background"
+                android:background="@drawable/back_edittext_use"
                 android:hint="Username"
-                android:padding="12dp" />
+                android:padding="12dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/Gray" />
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/pw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="20dp"
-                android:background="@drawable/login_id_background"
+                android:background="@drawable/back_edittext_use"
                 android:hint="Password"
                 android:inputType="textPassword"
-                android:padding="12dp" />
+                android:padding="12dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/Gray" />
 
-            <!--        <TextView-->
-            <!--            android:id="@+id/register"-->
-            <!--            android:layout_marginStart="20dp"-->
-            <!--            android:layout_marginEnd="20dp"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:text="Register"-->
-            <!--            android:layout_marginTop="10dp"-->
-            <!--            android:padding="10dp"-->
-            <!--            android:textSize="15dp"-->
-            <!--            android:layout_gravity="end">-->
-            <!---->
-            <!--        </TextView>-->
-
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,12 +74,19 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="30dp"
-                android:background="@drawable/login_id_background"
+                android:padding="10dp"
                 android:text="Login"
                 android:textAllCaps="false"
-                android:textSize="20dp" />
+                android:textColor="#EAEAEA"
+                android:textSize="20dp"
+                app:backgroundTint="#6DA3A3A3"
+                app:cornerRadius="@dimen/button_width"
+                app:strokeColor="@color/white"
+                app:strokeWidth="2dp" />
 
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

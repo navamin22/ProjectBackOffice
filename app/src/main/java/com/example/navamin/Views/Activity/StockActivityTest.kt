@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.dialog_icon.*
 
 
 class StockActivityTest : AppCompatActivity() {
@@ -24,7 +25,7 @@ class StockActivityTest : AppCompatActivity() {
     private lateinit var searchView: SearchView
     private lateinit var adapter: ArrayAdapter<*>
 
-    private val listname: ArrayList<Stock> = ArrayList()
+    private var listname = ArrayList<Stock>()
     private val list = ArrayList<String>()
     lateinit var dialogStock: DialogStock
 
@@ -68,11 +69,14 @@ class StockActivityTest : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                if (list.contains(query)) {
-                    adapter.filter.filter(query)
-                } else {
-                    Toast.makeText(this@StockActivityTest, "Item not found", Toast.LENGTH_LONG).show()
+                for (i in listname.indices) {
+                    if (list.contains(query)) {
+                        adapter.filter.filter(query)
+                    } else {
+                        Toast.makeText(this@StockActivityTest, "พบข้อมูล", Toast.LENGTH_LONG).show()
+                    }
                 }
+
                 return false
             }
             override fun onQueryTextChange(newText: String): Boolean {
@@ -116,27 +120,24 @@ class StockActivityTest : AppCompatActivity() {
 
                     binding.listView1.setOnItemClickListener(object : AdapterView.OnItemClickListener{
                         override fun onItemClick(p0: AdapterView<*>?,p1: View?,p2: Int,p3: Long) {
-                            val fm = supportFragmentManager
-                            dialogStock = DialogStock()
-                            val bundle = Bundle()
-                            bundle.putString("brand",listname[p2].brand)
-                            bundle.putString("model",listname[p2].model)
-                            bundle.putString("quantity",listname[p2].quantity)
-                            bundle.putString("quantity_enable",listname[p2].quantity_enable)
-                            dialogStock.arguments = bundle
-                            dialogStock.show(fm,"member_login")
+                            if (!Control.clicked) {
+                                Control.clicked = true
+                                val fm = supportFragmentManager
+                                dialogStock = DialogStock()
+                                val bundle = Bundle()
+                                bundle.putString("brand", listname[p2].brand)
+                                bundle.putString("model", listname[p2].model)
+                                bundle.putString("quantity", listname[p2].quantity)
+                                bundle.putString("quantity_enable", listname[p2].quantity_enable)
+                                dialogStock.arguments = bundle
+                                dialogStock.show(fm, "member_login")
+
+                            }
                         }
                     })
-//                    setintent()
                 }
             }
 
-//            private fun setintent(){
-//                val intent = Intent(this@StockActivityTest,BorrowActivity ::class.java)
-//                intent.putExtra("quantity_enable",Control.listname)
-//                startActivity(intent)
-//                println("stock is $listname")
-//            }
 
             override fun onCancelled(error: DatabaseError) {
 

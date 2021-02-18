@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.navamin.Control.Control
 import com.example.navamin.Model.Borrow
 import com.example.navamin.R
 import com.example.navamin.Views.Activity.SoldOut
@@ -30,23 +31,28 @@ class SoldAdapters(private val context: Context, private val items: ArrayList<Bo
         holder.borrowName.text = items[position].borrowName
 
         holder.no1.text = ((1 + position).toString())
-        holder.button5.setOnClickListener{
-            //เรียกใช้ Dialog Fragment here
-            val fm = soldOut.supportFragmentManager
-            dialogSold = DialogSold()
-            val bundle = Bundle()
-            bundle.putString("model",holder.model.text.toString())
-            bundle.putString("serialnumber",items[position].serialnumber)
-            bundle.putString("borrowName",holder.borrowName.text.toString())
-            bundle.putString("date_borrow",items[position].date_borrow)
-            bundle.putString("date_return",items[position].date_return)
-            bundle.putString("objective",items[position].objective)
+        holder.button5.setOnClickListener {
+            if (!Control.clicked) {
+                Control.clicked = true
+
+                //เรียกใช้ Dialog Fragment here
+                val fm = soldOut.supportFragmentManager
+                dialogSold = DialogSold()
+                val bundle = Bundle()
+                bundle.putString("model", holder.model.text.toString())
+                bundle.putString("serialnumber", items[position].serialnumber)
+                bundle.putString("borrowName", holder.borrowName.text.toString())
+                bundle.putString("date_borrow", items[position].date_borrow)
+                bundle.putString("date_return", items[position].date_return)
+                bundle.putString("objective", items[position].objective)
 
 
 
-            dialogSold.arguments = bundle
+                dialogSold.arguments = bundle
 //            iconDialog.show(fm,"icon_dialog")
-            dialogSold.show(fm,"member_login")
+                dialogSold.show(fm, "member_login")
+
+            }
         }
     }
 

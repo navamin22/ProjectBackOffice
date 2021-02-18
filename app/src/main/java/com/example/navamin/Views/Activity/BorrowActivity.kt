@@ -19,10 +19,7 @@ import com.example.navamin.R
 import com.example.navamin.databinding.ActivityMainActivity6BorrowBinding
 import com.example.navamin.snackbar
 import com.example.navamin.toast
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.activity_main_activity6__borrow.*
 import kotlinx.android.synthetic.main.dialog_day.view.*
@@ -254,9 +251,15 @@ class BorrowActivity : AppCompatActivity() {
 
     fun onClickCheck(){
         binding.Submit.setOnClickListener {
+
+            if (!com.example.navamin.Control.Control.clicked) {
+                com.example.navamin.Control.Control.clicked = true
 //            submit()
-            checkSerialNum()
+//                checkSerialNum()
+                checkSerialNum2()
 //            checksubmit()
+//                com.example.navamin.Control.Control.clicked = false
+            }
         }
 
         binding.day.setOnClickListener {
@@ -377,6 +380,7 @@ class BorrowActivity : AppCompatActivity() {
 
                                     val intent = Intent(this@BorrowActivity, MainActivity3::class.java)
                                     startActivity(intent)
+                                    com.example.navamin.Control.Control.clicked = false
 
                                     //myRef.child(key.toString()).setValue(borrow)
                                     //Calculate Stock
@@ -464,6 +468,133 @@ class BorrowActivity : AppCompatActivity() {
         })
     }
 
+
+    fun checkSerialNum2(){
+        val serialNum = binding.serialnumber3.text.toString()
+        val key = myRef.push().key
+        val spinnerBrand = spinner_brand.selectedItem.toString()
+        val spinner1 = spinner1.selectedItem.toString()
+        val spinner = spinner.selectedItem.toString()
+        val day1 = binding.day1.text.toString().trim()
+        val dayreturn = binding.appCompatTextView7.text.toString().trim()
+        val reason = binding.reason.text.toString().trim()
+        val machineList = ArrayList<Machine>()
+        machineList.clear()
+
+        val query: Query = myRef3.orderByChild("model").equalTo(spinner1)
+        query.addListenerForSingleValueEvent(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for (postSnapshot in snapshot.children) {
+                        val machine: Machine? = postSnapshot.getValue(Machine::class.java)
+                        machineList.add(machine!!)
+                    }
+
+                    println("machine $machineList")
+
+                    println("sizamachine ${machineList.size}")
+
+                    var boolean = false
+                    for (i in machineList.indices){
+                        if (serialNum == machineList[i].serialnumber) {
+                            println("Yes")
+                            println("SerialNum $serialNum == SerialNum ${machineList[i].serialnumber}")
+                            boolean = true
+
+                            val stockId = machineList[i].stock_id
+                            println("StockId is $stockId")
+
+                            val machine = Machine(machineList[i].id,spinnerBrand,spinner1,serialNum,"Borrowed",stockId)
+
+                            if (machineList[i].status == "Borrow"){
+                                Toast.makeText(this@BorrowActivity,"เสร็จสิ้น",Toast.LENGTH_SHORT).show()
+                                myRef3.child(machineList[i].id).setValue(machine)
+                                for (k in listname2.indices){
+                                    if (stockId == listname2[k].id) {
+                                        println("Yes")
+
+                                        boolean = true
+
+                                        val borrow = Borrow(key.toString(),spinnerBrand,spinner1,spinner,serialNum,day1,dayreturn,reason,machineList[i].id,"Borrowed")
+
+
+                                        val stock = Stock(
+                                            listname2[k].id,
+                                            listname2[k].brand,
+                                            listname2[k].model,
+                                            listname2[k].model_id,
+                                            listname2[k].quantity,
+                                            (listname2[k].quantity_enable.toInt() - 1).toString()
+                                        )
+
+//                                    for (l in machineList.indices){
+//                                        if (machineList[l].serialnumber == serialNum) {
+//                                            val machine = Machine (
+//                                                machineList[l].id,spinnerBrand,spinner1,serialNum,"Borrowed",stockId
+//                                            )
+//
+//                                            if (machineList[l].status == "Borrow"){
+//                                                Toast.makeText(this@BorrowActivity,"ใช้ได้",Toast.LENGTH_SHORT).show()
+//                                                myRef3.child(machineList[l].id).setValue(machine)
+//
+//                                                break
+//                                            } else if (machineList[l].status != "Borrowed") {
+//                                                Toast.makeText(this@BorrowActivity,"ใช้ไปแล้ว",Toast.LENGTH_SHORT).show()
+//                                            }
+//
+//                                        }
+//                                    }
+
+
+
+
+                                        myRef.child(key.toString()).setValue(borrow)
+                                        myRef2.child(stock.id).setValue(stock)
+
+                                        val intent = Intent(this@BorrowActivity, MainActivity3::class.java)
+                                        startActivity(intent)
+//                                        com.example.navamin.Control.Control.clicked = false
+
+
+                                        //myRef.child(key.toString()).setValue(borrow)
+                                        //Calculate Stock
+
+                                        break
+                                    }else{
+                                        println("No")
+                                        boolean = false
+                                    }
+                                }
+
+                                break
+                            } else if (machineList[i].status == "Borrowed") {
+                                Toast.makeText(this@BorrowActivity,"ใช้ไปแล้ว",Toast.LENGTH_SHORT).show()
+                            }
+
+//                            break
+
+                        } else{
+                            com.example.navamin.Control.Control.clicked = false
+                            //Toast.makeText(this@BorrowActivity,"No",Toast.LENGTH_SHORT).show()
+                            println("No")
+                            boolean = false
+                        }
+                    }
+
+//                    if (boolean){
+//                        Toast.makeText(this@BorrowActivity,"เสร็จสิ้น",Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(this@BorrowActivity,"กรอกข้อมูลไม่ถูกต้อง",Toast.LENGTH_SHORT).show()
+//                    }
+
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
 
 }
 

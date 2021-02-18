@@ -71,6 +71,7 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
         val machineList = ArrayList<Machine>()
         val listname2 = ArrayList<Stock>()
         println("stock $listname2")
+
         myRef.addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
@@ -95,6 +96,8 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
                                             if (stockId == listname2[k].id){
                                                 println("Yes")
 
+                                                val machine = Machine (machineList[i].id,brand!!,model!!,serialnumber!!,"Borrow",stockId)
+
 
                                                 val stock = Stock(
                                                     listname2[k].id,
@@ -117,6 +120,9 @@ class ButtonRepay(private val aRetun: Return) : DialogFragment() {
                                                     machine_id.toString(),
                                                     "Return"
                                                 )
+
+
+                                                myRef.child(machineList[i].id).setValue(machine)
 
                                                 myRef3.child(id.toString()).setValue(borrow)
                                                 myRef2.child(stock.id).setValue(stock)

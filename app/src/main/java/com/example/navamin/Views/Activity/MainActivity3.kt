@@ -48,9 +48,11 @@ class MainActivity3 : AppCompatActivity() {
 //        getStockItem()
 
         binding.button4.setOnClickListener {
+            if (!Control.clicked) {
+                Control.clicked = true
 //            button1()
-            getStockItem()
-        }
+                getStockItem()
+            }
 //        binding.button5.setOnClickListener {
 //            val intent = Intent(this, MainActivity6_Borrow::class.java)
 //            startActivity(intent)
@@ -59,6 +61,27 @@ class MainActivity3 : AppCompatActivity() {
 //            val intent = Intent(this, MainActivity6_Borrow::class.java)
 //            startActivity(intent)
 //        }
+        }
+        Control.clicked = false
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("on resume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("on Pause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Control.clicked = false
     }
 
 
@@ -222,6 +245,7 @@ class MainActivity3 : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
+
             }
         })
         

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import com.example.navamin.Control.Control
 import com.example.navamin.Model.Borrow
 import com.example.navamin.R
 import com.example.navamin.databinding.DialogSoldBinding
@@ -83,10 +84,12 @@ class DialogSold : DialogFragment(){
         val height = ViewGroup.LayoutParams.WRAP_CONTENT
         dialog?.window?.setLayout(width, height)
 
+
     }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
+        Control.clicked = false
     }
 
 }
